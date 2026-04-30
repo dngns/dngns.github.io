@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+
+# Allow Social Media Scrapers
+User-agent: facebookexternalhit
+Allow: /
+User-agent: Facebot
+Allow: /
+User-agent: Twitterbot
+Allow: /
+User-agent: LinkedInBot
+Allow: /
+User-agent: Discordbot
+Allow: /
+
+# Block Aggressive Scrapers & Known Spam Bots
+User-agent: GPTBot
+Disallow: /
+User-agent: CCBot
+Disallow: /
+User-agent: SemrushBot
+Disallow: /
+User-agent: AhrefsBot
+Disallow: /
+User-agent: dotbot
+Disallow: /
+User-agent: Rogerbot
+Disallow: /

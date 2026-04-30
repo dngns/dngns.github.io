@@ -88,6 +88,18 @@ onMounted(() => {
 onUnmounted(() => {
   if (ctx) ctx.revert()
 })
+  // Email Obfuscation Protocol
+  const getSecureEmail = () => {
+    const user = 'dnglabsneversleep'
+    const domain = 'gmail.com'
+    return `${user}@${domain}`
+  }
+
+  const handleEmailClick = (e: MouseEvent) => {
+    e.preventDefault()
+    const email = getSecureEmail()
+    window.open(`mailto:${email}`, '_self')
+  }
 </script>
 
 <template>
@@ -170,7 +182,8 @@ onUnmounted(() => {
                 </div>
                 <div class="h-px flex-grow bg-black/10"></div>
               </div>
-              <a href="mailto:dnglabsneversleep@gmail.com"
+              <a href="#"
+                @click="handleEmailClick"
                 @mouseenter="handleScramble($event, 'DNGLABSNEVERSLEEP@GMAIL.COM')"
                 class="block text-4xl md:text-7xl font-mono font-black tracking-tighter hover:text-[#8b7e66] transition-all duration-300 break-all leading-none uppercase active:scale-[0.96]">
                 dnglabsneversleep@gmail.com
