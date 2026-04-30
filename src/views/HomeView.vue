@@ -281,20 +281,4 @@ onUnmounted(() => {
   cursor: pointer;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f3f2eb;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #1a1a1a;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #8b7e66;
-}
 </style>
