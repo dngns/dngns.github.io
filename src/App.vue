@@ -1,85 +1,76 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterView } from 'vue-router'
+import { onMounted } from 'vue'
+import Lenis from 'lenis'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import CustomCursor from './components/CustomCursor.vue'
+
+gsap.registerPlugin(ScrollTrigger)
+
+onMounted(() => {
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+  })
+
+  function raf(time: number) {
+    lenis.raf(time)
+    requestAnimationFrame(raf)
+  }
+
+  requestAnimationFrame(raf)
+
+  // Sync ScrollTrigger with Lenis
+  lenis.on('scroll', () => {
+    ScrollTrigger.update()
+  })
+})
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="app-container min-h-screen relative font-sans text-[#1a1a1a] bg-[#f3f2eb] z-0">
+    <!-- Premium Grain Overlay -->
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+    <CustomCursor />
+    <RouterView />
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+<style>
+@import "tailwindcss";
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
+html,
+body {
+  margin: 0;
+  padding: 0;
   width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+  background-color: #f3f2eb;
+  color: #1a1a1a;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Hide scrollbar for all browsers */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+/* Hide scrollbar for Chrome, Safari and Opera */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.grain-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  filter: contrast(120%) brightness(120%);
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+::selection {
+  background: #1a1a1a;
+  color: #f3f2eb;
 }
 </style>
