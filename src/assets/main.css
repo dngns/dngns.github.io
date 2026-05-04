@@ -1,11 +1,10 @@
-/* Reset các style mặc định có thể gây xung đột với Portfolio mới */
 :root {
   --color-background: #d1d1d1;
 }
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
-  /* Đảm bảo KHÔNG có overflow: hidden ở đây */
   overflow-x: hidden;
 }

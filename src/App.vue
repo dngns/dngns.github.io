@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
 import { onMounted } from 'vue'
 import Lenis from 'lenis'
 import { gsap } from 'gsap'
@@ -11,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger)
 onMounted(() => {
   const lenis = new Lenis({
     duration: 1.5, // Slightly longer for that 'weighted' Poly feel
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    easing: (t) => Math.min(1, 1.001 - 2 ** (-10 * t)),
     smoothWheel: true,
     lerp: 0.08, // Smoother, heavier interpolation
   })
@@ -23,6 +22,10 @@ onMounted(() => {
 
   requestAnimationFrame(raf)
 
+  globalThis.addEventListener('lenis-scroll', ((e: CustomEvent) => {
+    lenis.scrollTo(e.detail.target, { duration: 0.8, offset: e.detail.offset || 0 })
+  }) as EventListener)
+
   // Sync ScrollTrigger with Lenis
   lenis.on('scroll', () => {
     ScrollTrigger.update()
@@ -31,23 +34,23 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="app-container relative text-[#FFFFFF] bg-[#0A0A0A] z-0 overflow-x-hidden selection:bg-[#FF4D00] selection:text-white">
+  <div
+    class="app-container relative text-[#FFFFFF] bg-[#0A0A0A] z-0 overflow-x-hidden selection:bg-[#FF4D00] selection:text-white"
+  >
     <!-- Poly-inspired Noise Overlay -->
-    <div class="fixed inset-0 pointer-events-none z-[100] opacity-[0.03] mix-blend-screen bg-noise"></div>
-    
+    <div class="fixed inset-0 pointer-events-none z-100 opacity-[0.03] mix-blend-screen bg-noise" />
+
     <CustomCursor />
     <RouterView />
   </div>
 </template>
 
 <style>
-@import "tailwindcss";
-
 :root {
   --font-heading: 'Inter Tight', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --bg-deep: #0A0A0A;
-  --accent-poly: #FF4D00;
+  --bg-deep: #0a0a0a;
+  --accent-poly: #ff4d00;
 }
 
 .bg-noise {
@@ -71,7 +74,7 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   background-color: var(--bg-deep);
-  color: #FFFFFF;
+  color: #ffffff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -93,7 +96,10 @@ body {
   display: none !important;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-heading);
   letter-spacing: -0.04em;
 }
@@ -104,6 +110,6 @@ h1, h2, h3, h4 {
 
 ::selection {
   background: var(--accent-poly);
-  color: #FFFFFF;
+  color: #ffffff;
 }
 </style>

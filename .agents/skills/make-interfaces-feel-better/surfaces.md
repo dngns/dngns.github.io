@@ -150,7 +150,7 @@ In dark mode, simplify to a single white ring — layered depth shadows aren't v
 
 ### Usage with Hover Transition
 
-Apply the variable and add `transition-[box-shadow]` for a smooth hover:
+Apply the variable and add `transition-shadow` for a smooth hover:
 
 ```css
 .card {
